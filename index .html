@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>เรียนรู้การบอกเวลา | ป.3</title>
+<style>
+:root{--navy:#253b80;--blue:#3978f6;--sky:#e9f7ff;--yellow:#ffe45e;--pink:#ff8eb5;--green:#20b486;--ink:#24324a;--purple:#8b5cf6;--orange:#ff9f43}
+*{box-sizing:border-box}body{margin:0;font-family:"Tahoma","Noto Sans Thai",sans-serif;background:linear-gradient(135deg,#dff5ff 0%,#fff0f6 48%,#fff7d6 100%);color:var(--ink);font-size:18px}
+header{background:linear-gradient(110deg,#6845d8,#2878d0 55%,#13b8b0);color:white;padding:34px 18px;text-align:center;position:relative;overflow:hidden}
+header h1{margin:0 0 10px;font-size:clamp(32px,5vw,48px);text-shadow:0 3px 0 #263d8055}header p{font-size:clamp(17px,2.5vw,21px)}header p{margin:0;opacity:.95}
+main{max-width:1100px;margin:auto;padding:20px}.tabs{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 18px}
+.tab{border:0;border-radius:16px;padding:15px 20px;background:white;color:var(--navy);font-size:18px;font-weight:bold;cursor:pointer;box-shadow:0 4px 12px #263d8020;transition:.2s}.tab:hover{transform:translateY(-3px)}
+.tab.active{background:linear-gradient(135deg,#ffe45e,#ffbd59);box-shadow:0 5px 0 #e8a83e}.panel{display:none;background:#ffffffdf;border:1px solid #d8e8f7;border-radius:22px;padding:25px;box-shadow:0 10px 30px #263d8018}.panel.active{display:block}
+h2{color:var(--navy);margin-top:0;font-size:clamp(24px,3vw,30px)}p{line-height:1.7;font-size:18px}.learn-grid{display:grid;grid-template-columns: minmax(260px,1fr) minmax(260px,1fr);gap:22px;align-items:center}
+.clock-wrap{display:grid;place-items:center;background:linear-gradient(145deg,#d9f5ff,#f0eaff);border:3px solid white;border-radius:24px;padding:18px;box-shadow:inset 0 0 0 2px #c9e8ff}
+svg{max-width:100%;height:auto}.clock-face{fill:#fff;stroke:#17345c;stroke-width:7}.tick{stroke:#8aa4c2;stroke-width:2}.hour-num{font-size:21px;font-weight:bold;fill:#17345c;text-anchor:middle;dominant-baseline:middle}
+.hand{stroke-linecap:round}.hour-hand{stroke:#17345c;stroke-width:8}.minute-hand{stroke:#ed6a5a;stroke-width:5}.center{fill:#17345c}
+.time-readout{font-size:38px;font-weight:900;color:var(--navy);text-align:center;margin-top:8px}.spoken{text-align:center;font-size:22px;font-weight:bold;color:#42617f;margin-top:4px}
+.control{margin:15px 0}.control label{display:flex;justify-content:space-between;font-weight:bold;margin-bottom:7px}input[type=range]{width:100%;accent-color:var(--blue)}
+button.action{background:linear-gradient(135deg,#3978f6,#7655e8);color:white;border:0;padding:14px 20px;border-radius:15px;font-size:18px;font-weight:bold;cursor:pointer;margin:5px;box-shadow:0 4px 0 #244db0;transition:.15s}button.action:hover{transform:translateY(-2px);filter:brightness(1.06)}button.action:active{transform:translateY(2px);box-shadow:0 1px 0 #244db0}button.secondary{background:#e7f1fb;color:var(--navy)}
+.note{background:#fff7dc;border-left:5px solid var(--yellow);padding:16px 18px;border-radius:14px;line-height:1.8;font-size:18px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:14px}.card{background:linear-gradient(145deg,#f0f8ff,#fff);border:2px solid #d8ebff;border-radius:18px;padding:17px;font-size:18px;line-height:1.7;box-shadow:0 4px 12px #3978f610}.card:nth-child(3n+2){background:linear-gradient(145deg,#fff1f6,#fff)}.card:nth-child(3n){background:linear-gradient(145deg,#fff9df,#fff)}.card strong{color:var(--blue)}
+.quiz-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-weight:bold}.progress{height:10px;background:#e7edf4;border-radius:20px;overflow:hidden;margin:12px 0 20px}.bar{height:100%;background:linear-gradient(90deg,#20a779,#8bd9b5);width:0}
+.question{font-size:26px;font-weight:bold;margin:12px 0}.choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.choice{padding:17px;border:3px solid #d6e4f2;border-radius:16px;background:white;font-size:21px;font-weight:bold;cursor:pointer;transition:.15s}.choice:hover{transform:scale(1.02);background:#f0f7ff}.choice:hover{border-color:var(--blue)}.choice:disabled{cursor:default;opacity:.8}.feedback{font-weight:bold;min-height:30px;margin:12px 0}.small{font-size:16px;color:#60758c}
+.game-box{max-width:720px;margin:12px auto;background:linear-gradient(135deg,#f1eaff,#e6f8ff);border:3px dashed #b9a5ff;border-radius:24px;padding:22px}.game-status{display:flex;justify-content:space-between;font-size:21px;font-weight:900;color:var(--purple);margin-bottom:12px}.game-clock{max-width:340px;margin:auto;background:linear-gradient(145deg,#fff,#fff6d9)}#gameFeedback{text-align:center;font-size:21px;min-height:40px}.correct-pop{animation:pop .35s ease}@keyframes pop{50%{transform:scale(1.06)}}
+@media(max-width:700px){.learn-grid{grid-template-columns:1fr}.panel{padding:15px}.choices{grid-template-columns:1fr}.tab{flex:1}.game-box{padding:14px}.game-status{font-size:18px}}
+</style>
+</head>
+<body>
+<header><h1>🕒 สนุกกับการบอกเวลา</h1><p>บทเรียนคณิตศาสตร์ ชั้นประถมศึกษาปีที่ 3 · เรียนรู้ ทดลอง และตอบคำถาม</p></header>
+<main>
+<nav class="tabs">
+<button class="tab active" data-tab="learn">📘 เรียนรู้</button>
+<button class="tab" data-tab="practice">🎮 ทดลองปรับนาฬิกา</button>
+<button class="tab" data-tab="game">⭐ เกมจับคู่เวลา</button>
+<button class="tab" data-tab="quiz">✏️ แบบทดสอบ 10 ข้อ</button>
+</nav>
+<section id="learn" class="panel active">
+<h2>1. รู้จักเข็มนาฬิกา</h2>
+<div class="learn-grid">
+<div class="clock-wrap">
+<svg id="clock1" viewBox="0 0 300 300" role="img" aria-label="นาฬิกาแสดงเวลา">
+<circle class="clock-face" cx="150" cy="150" r="132"/>
+<g id="ticks1"></g><g id="nums1"></g>
+<line id="hour1" class="hand hour-hand" x1="150" y1="150" x2="150" y2="91"/>
+<line id="minute1" class="hand minute-hand" x1="150" y1="150" x2="150" y2="48"/>
+<circle class="center" cx="150" cy="150" r="7"/>
+</svg><div class="time-readout" id="read1">03:00</div><div class="spoken" id="say1">3 นาฬิกา</div>
+</div>
+<div>
+<div class="cards">
+<div class="card"><strong>เข็มสั้น</strong><br>บอก “ชั่วโมง” เคลื่อนที่ช้า ๆ จากเลขหนึ่งไปอีกเลขหนึ่ง</div>
+<div class="card"><strong>เข็มยาว</strong><br>บอก “นาที” เลข 12 คือ 00 นาที และแต่ละขีดใหญ่ห่างกัน 5 นาที</div>
+<div class="card"><strong>การนับนาที</strong><br>เริ่มที่เลข 12 แล้วนับเพิ่มทีละ 5: 5, 10, 15, 20 … 60</div>
+</div>
+<p class="note"><b>จำง่าย ๆ:</b> เข็มยาวชี้เลข 3 = 15 นาที, เลข 6 = 30 นาที, เลข 9 = 45 นาที และเมื่อเข็มยาวครบหนึ่งรอบจะเท่ากับ 60 นาที หรือ 1 ชั่วโมง</p>
+</div>
+</div>
+<h2 style="margin-top:24px">2. ตัวอย่างการอ่านเวลา</h2>
+<div class="cards">
+<div class="card">🕒 <strong>02:00</strong><br>2 นาฬิกา</div>
+<div class="card">🕒 <strong>04:15</strong><br>4 นาฬิกา 15 นาที</div>
+<div class="card">🕒 <strong>07:30</strong><br>7 นาฬิกา 30 นาที</div>
+<div class="card">🕒 <strong>10:45</strong><br>10 นาฬิกา 45 นาที</div>
+</div>
+</section>
+<section id="practice" class="panel">
+<h2>🎮 ทดลองปรับเวลา แล้วสังเกตการเคลื่อนที่ของเข็ม</h2>
+<p>ลากแถบเลื่อนชั่วโมงและนาที นาฬิกาจะเปลี่ยนตามทันที</p>
+<div class="learn-grid">
+<div class="clock-wrap">
+<svg id="clock2" viewBox="0 0 300 300" role="img" aria-label="นาฬิกาที่ปรับเวลาได้">
+<circle class="clock-face" cx="150" cy="150" r="132"/>
+<g id="ticks2"></g><g id="nums2"></g>
+<line id="hour2" class="hand hour-hand" x1="150" y1="150" x2="150" y2="91"/>
+<line id="minute2" class="hand minute-hand" x1="150" y1="150" x2="150" y2="48"/>
+<circle class="center" cx="150" cy="150" r="7"/>
+</svg><div class="time-readout" id="read2">03:00</div><div class="spoken" id="say2">3 นาฬิกา</div>
+</div>
+<div>
+<div class="control"><label for="hourRange">ชั่วโมง <span id="hourVal">3</span></label><input id="hourRange" type="range" min="1" max="12" value="3"></div>
+<div class="control"><label for="minuteRange">นาที <span id="minuteVal">00</span></label><input id="minuteRange" type="range" min="0" max="55" step="5" value="0"></div>
+<div><button class="action" id="randomTime">สุ่มเวลา</button><button class="action secondary" id="playTime">▶ เดินนาฬิกา</button><button class="action secondary" id="stopTime">หยุด</button></div>
+<p class="note" id="explain">ลองเลื่อนเข็มยาวไปที่เลข 6 แล้วสังเกตว่าเป็นเวลา 30 นาที เข็มสั้นจะอยู่ระหว่างเลข 3 และ 4</p>
+<p class="small">หมายเหตุ: แบบฝึกนี้ปรับนาทีทีละ 5 นาที เพื่อฝึกอ่านตำแหน่งตัวเลขบนหน้าปัด</p>
+</div>
+</div>
+</section>
+<section id="game" class="panel">
+<h2>⭐ เกมภารกิจนักอ่านเวลา</h2>
+<p>อ่านเวลาจากหน้าปัด แล้วเลือกคำตอบที่ตรงกันให้เร็วและถูกต้อง สะสมดาวให้ครบ 5 ดวง!</p>
+<div class="game-box">
+  <div class="game-status"><span id="gameRound">ภารกิจ 1 / 5</span><span id="gameStars">⭐ 0 / 5</span></div>
+  <div class="game-clock clock-wrap">
+    <svg id="clockGame" viewBox="0 0 300 300" role="img" aria-label="นาฬิกาสำหรับเกมจับคู่เวลา">
+      <circle class="clock-face" cx="150" cy="150" r="132"/><g id="ticksGame"></g><g id="numsGame"></g>
+      <line id="hourGame" class="hand hour-hand" x1="150" y1="150" x2="150" y2="91"/><line id="minuteGame" class="hand minute-hand" x1="150" y1="150" x2="150" y2="48"/><circle class="center" cx="150" cy="150" r="7"/>
+    </svg>
+  </div>
+  <h3 style="text-align:center;font-size:24px;color:var(--purple)">นาฬิกาเรือนนี้บอกเวลาเท่าไร?</h3>
+  <div class="choices" id="gameChoices"></div>
+  <div class="feedback" id="gameFeedback" aria-live="polite"></div>
+  <div style="text-align:center"><button class="action" id="gameNext" style="display:none">ภารกิจถัดไป →</button><button class="action" id="gameAgain" style="display:none">เล่นอีกครั้ง 🔄</button></div>
+</div>
+</section>
+<section id="quiz" class="panel">
+<h2>✏️ แบบทดสอบท้ายกิจกรรม</h2>
+<p>เลือกคำตอบที่ถูกต้องให้ครบ 10 ข้อ ระบบจะแจ้งผลและเฉลยหลังตอบแต่ละข้อ</p>
+<div class="quiz-top"><span id="qCount">ข้อ 1 จาก 10</span><span id="score">คะแนน 0</span></div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div id="quizArea"><div class="question" id="question"></div><div class="choices" id="choices"></div><div class="feedback" id="feedback"></div><button class="action" id="next" style="display:none">ข้อต่อไป →</button></div>
+<div id="result" style="display:none;text-align:center"><h2>สรุปผลการทำกิจกรรม</h2><div class="time-readout" id="finalScore"></div><p id="message"></p><button class="action" id="restart">ทำแบบทดสอบอีกครั้ง</button></div>
+</section>
+</main>
+<script>
+function buildClock(n){
+ const ticks=document.getElementById('ticks'+n), nums=document.getElementById('nums'+n);
+ for(let i=0;i<60;i++){let a=i*Math.PI/30-Math.PI/2, r1=i%5===0?116:122, r2= i%5===0?130:127;
+ let l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('x1',150+r1*Math.cos(a));l.setAttribute('y1',150+r1*Math.sin(a));l.setAttribute('x2',150+r2*Math.cos(a));l.setAttribute('y2',150+r2*Math.sin(a));l.setAttribute('class','tick');if(i%5===0)l.setAttribute('stroke-width','3');ticks.appendChild(l);}
+ for(let i=1;i<=12;i++){let a=i*Math.PI/6-Math.PI/2;let t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('x',150+99*Math.cos(a));t.setAttribute('y',150+99*Math.sin(a));t.setAttribute('class','hour-num');t.textContent=i;nums.appendChild(t);}
+}
+buildClock(1);buildClock(2);
+// สร้างหน้าปัดสำหรับเกม
+(function(){const ticks=document.getElementById('ticksGame'),nums=document.getElementById('numsGame');for(let i=0;i<60;i++){let a=i*Math.PI/30-Math.PI/2,r1=i%5===0?116:122,r2=i%5===0?130:127,l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('x1',150+r1*Math.cos(a));l.setAttribute('y1',150+r1*Math.sin(a));l.setAttribute('x2',150+r2*Math.cos(a));l.setAttribute('y2',150+r2*Math.sin(a));l.setAttribute('class','tick');ticks.appendChild(l)}for(let i=1;i<=12;i++){let a=i*Math.PI/6-Math.PI/2,t=document.createElementNS('http://www.w3.org/2000/svg','text');t.setAttribute('x',150+99*Math.cos(a));t.setAttribute('y',150+99*Math.sin(a));t.setAttribute('class','hour-num');t.textContent=i;nums.appendChild(t)}})();
+function hand(id,deg,len){let a=deg*Math.PI/180-Math.PI/2;let el=document.getElementById(id);el.setAttribute('x2',150+len*Math.cos(a));el.setAttribute('y2',150+len*Math.sin(a));}
+function setClock(prefix,h,m){
+ let hourAngle=((h%12)+m/60)*30, minAngle=m*6;
+ hand('hour'+prefix,hourAngle,62);hand('minute'+prefix,minAngle,94);
+ let hh=String(h).padStart(2,'0'),mm=String(m).padStart(2,'0');
+ document.getElementById('read'+prefix).textContent=hh+':'+mm;
+ document.getElementById('say'+prefix).textContent=h+' นาฬิกา'+(m?' '+m+' นาที':'');
+}
+setClock(1,3,0);setClock(2,3,0);
+const hr=document.getElementById('hourRange'), mr=document.getElementById('minuteRange');
+function update(){let h=+hr.value,m=+mr.value;document.getElementById('hourVal').textContent=h;document.getElementById('minuteVal').textContent=String(m).padStart(2,'0');setClock(2,h,m);
+document.getElementById('explain').textContent=m===0?'เข็มยาวชี้เลข 12 หมายถึง 00 นาที':`เข็มยาวชี้เลข ${m/5||12} หมายถึง ${m} นาที`+(m===30?' เข็มสั้นอยู่กึ่งกลางระหว่างเลขชั่วโมง':'');}
+hr.addEventListener('input',update);mr.addEventListener('input',update);
+document.getElementById('randomTime').onclick=()=>{hr.value=1+Math.floor(Math.random()*12);mr.value=Math.floor(Math.random()*12)*5;update()};
+let timer=null;document.getElementById('playTime').onclick=()=>{if(timer)return;timer=setInterval(()=>{let m=+mr.value+5,h=+hr.value;if(m>=60){m=0;h=h%12+1}mr.value=m;hr.value=h;update()},650)};
+document.getElementById('stopTime').onclick=()=>{clearInterval(timer);timer=null};
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.tab).classList.add('active')});
+// เกมจับคู่เวลา 5 ภารกิจ
+const gameTimes=[[2,15],[5,30],[8,45],[11,0],[3,10]];let gameIndex=0,gameScore=0,gameLocked=false;
+function startGame(){gameIndex=0;gameScore=0;document.getElementById('gameAgain').style.display='none';renderGame()}
+function renderGame(){gameLocked=false;let [h,m]=gameTimes[gameIndex];hand('hourGame',((h%12)+m/60)*30,62);hand('minuteGame',m*6,94);document.getElementById('gameRound').textContent=`ภารกิจ ${gameIndex+1} / 5`;document.getElementById('gameStars').textContent=`⭐ ${gameScore} / 5`;document.getElementById('gameFeedback').textContent='';document.getElementById('gameNext').style.display='none';let correct=`${h}:${String(m).padStart(2,'0')}`;let opts=new Set([correct]);while(opts.size<4){let hh=1+Math.floor(Math.random()*12),mm=[0,5,10,15,20,25,30,35,40,45,50,55][Math.floor(Math.random()*12)];opts.add(`${hh}:${String(mm).padStart(2,'0')}`)}let arr=[...opts].sort(()=>Math.random()-.5),box=document.getElementById('gameChoices');box.innerHTML='';arr.forEach(v=>{let b=document.createElement('button');b.className='choice';b.textContent=v;b.onclick=()=>{if(gameLocked)return;gameLocked=true;let ok=v===correct;if(ok){gameScore++;b.style.borderColor='#20b486';b.style.background='#e5fff5';document.getElementById('gameFeedback').textContent='🎉 ถูกต้อง เก่งมาก! ได้รับดาว 1 ดวง';}else{b.style.borderColor='#ff8b9c';document.getElementById('gameFeedback').textContent=`ลองสังเกตเข็มอีกครั้งนะ เฉลยคือ ${correct}`;}document.querySelectorAll('#gameChoices button').forEach(x=>x.disabled=true);document.getElementById('gameStars').textContent=`⭐ ${gameScore} / 5`;document.getElementById('gameNext').style.display='inline-block';document.getElementById('gameNext').textContent=gameIndex===4?'ดูผลเกม':'ภารกิจถัดไป →'};box.appendChild(b)})}
+document.getElementById('gameNext').onclick=()=>{if(gameIndex<4){gameIndex++;renderGame()}else{document.getElementById('gameFeedback').textContent=`🏆 จบเกมแล้ว! คุณสะสมได้ ${gameScore} ดาว จาก 5 ดาว`;document.getElementById('gameNext').style.display='none';document.getElementById('gameAgain').style.display='inline-block'}};document.getElementById('gameAgain').onclick=startGame;startGame();
+const questions=[
+{q:'เข็มสั้นของนาฬิกาบอกอะไร?',a:['นาที','ชั่วโมง','วินาที','วัน'],c:1,e:'เข็มสั้นใช้บอกชั่วโมง'},
+{q:'เข็มยาวชี้เลข 12 หมายถึงกี่นาที?',a:['5 นาที','15 นาที','30 นาที','0 นาที'],c:3,e:'เลข 12 เป็นจุดเริ่มต้นของนาที หมายถึง 00 นาที'},
+{q:'เข็มยาวชี้เลข 3 หมายถึงกี่นาที?',a:['10 นาที','15 นาที','20 นาที','30 นาที'],c:1,e:'เลข 3 คูณ 5 ได้ 15 นาที'},
+{q:'เวลา 6:30 อ่านว่าอย่างไร?',a:['6 นาฬิกา 15 นาที','6 นาฬิกา 30 นาที','6 นาฬิกา 45 นาที','7 นาฬิกา'],c:1,e:'เวลา 6:30 คือ 6 นาฬิกา 30 นาที'},
+{q:'เวลา 9:15 เข็มยาวควรชี้เลขใด?',a:['เลข 3','เลข 6','เลข 9','เลข 12'],c:0,e:'15 นาทีตรงกับเลข 3'},
+{q:'1 ชั่วโมงมีกี่นาที?',a:['15 นาที','30 นาที','60 นาที','100 นาที'],c:2,e:'1 ชั่วโมงเท่ากับ 60 นาที'},
+{q:'เข็มยาวชี้เลข 9 หมายถึงกี่นาที?',a:['15 นาที','30 นาที','45 นาที','50 นาที'],c:2,e:'เลข 9 คูณ 5 ได้ 45 นาที'},
+{q:'เวลา 4:00 เข็มสั้นชี้เลขใด?',a:['เลข 2','เลข 4','เลข 8','เลข 12'],c:1,e:'เวลา 4:00 เข็มสั้นชี้เลข 4 และเข็มยาวชี้เลข 12'},
+{q:'จากเวลา 2:00 ผ่านไป 30 นาที จะเป็นเวลาใด?',a:['2:15','2:30','3:00','3:30'],c:1,e:'เพิ่ม 30 นาทีจาก 2:00 ได้ 2:30'},
+{q:'เวลา 11:45 เข็มยาวชี้เลขใด?',a:['เลข 3','เลข 6','เลข 9','เลข 12'],c:2,e:'45 นาทีตรงกับเลข 9'}
+];
+let qi=0,sc=0,answered=false;
+function showQ(){answered=false;let q=questions[qi];document.getElementById('qCount').textContent=`ข้อ ${qi+1} จาก 10`;document.getElementById('score').textContent='คะแนน '+sc;document.getElementById('bar').style.width=(qi/10*100)+'%';document.getElementById('question').textContent=q.q;document.getElementById('feedback').textContent='';document.getElementById('next').style.display='none';let box=document.getElementById('choices');box.innerHTML='';q.a.forEach((v,i)=>{let b=document.createElement('button');b.className='choice';b.textContent=String.fromCharCode(0x0E01+i)+'. '+v;b.onclick=()=>answer(i,b);box.appendChild(b)})}
+function answer(i,btn){if(answered)return;answered=true;let q=questions[qi];let ok=i===q.c;if(ok)sc++;document.querySelectorAll('.choice').forEach((b,j)=>{b.disabled=true;if(j===q.c)b.style.borderColor='#20a779';if(j===i&&!ok)b.style.borderColor='#e56b6f'});document.getElementById('feedback').textContent=(ok?'✓ ถูกต้อง! ':'✗ ยังไม่ถูกต้อง ')+'เฉลย: '+q.a[q.c]+'. '+q.e;document.getElementById('score').textContent='คะแนน '+sc;document.getElementById('next').style.display='inline-block';document.getElementById('next').textContent=qi===9?'ดูผลคะแนน':'ข้อต่อไป →'}
+document.getElementById('next').onclick=()=>{qi++;if(qi<10)showQ();else{document.getElementById('quizArea').style.display='none';document.getElementById('result').style.display='block';document.getElementById('bar').style.width='100%';document.getElementById('finalScore').textContent=sc+' / 10 คะแนน';document.getElementById('message').textContent=sc>=8?'ยอดเยี่ยม! อ่านเวลาได้คล่องแคล่ว':sc>=5?'ทำได้ดี ลองทบทวนเรื่องเข็มชั่วโมงและนาทีอีกครั้ง':'ลองกลับไปฝึกปรับนาฬิกา แล้วทำแบบทดสอบอีกครั้ง'}};
+document.getElementById('restart').onclick=()=>{qi=0;sc=0;document.getElementById('quizArea').style.display='block';document.getElementById('result').style.display='none';showQ()};
+showQ();
+</script>
+</body></html>
